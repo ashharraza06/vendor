@@ -1,0 +1,264 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.body {
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+}
+body {
+  background-image: url(./components/images/vendorBgImage.jpg);
+  background-position: center;      /* Center the image */
+  background-repeat: repeat-y;     /* Prevent the image from repeating */
+  background-size:cover;           /* Scale the image to cover the entire body */                   /* Make sure body takes full height */
+  margin: 0;                        /* Remove default margin */
+}
+body
+{
+  background-color: rgb(126, 182, 238);
+}
+
+
+/* Header CSS */
+.headbuttons {
+
+  display: flex;
+  min-height: 20px;
+  width: 80%;
+  margin: 20px 10px 20px 240px;
+  background-color: transparent;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button {
+  background-color: #184867;
+  /* Green */
+  border: none;
+  color: white;
+  height: 65px;
+  width: 65px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0;
+  /* Adjust margin for better alignment */
+  cursor: pointer;
+  border-radius: 60%;
+}
+
+.button:disabled {
+  background-color: #184867;
+  /* Change to your preferred color */
+  cursor: not-allowed;
+  /* Change the cursor to indicate the button is disabled */
+  opacity: 0.5;
+  /* Make it appear faded */
+}
+.btn-line
+{
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.line
+{
+  border: 1.5px solid blue;
+  height: 0px;
+  width :80%
+}
+/* Footer css */
+
+.footerbuttons {
+  margin: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footbuttons {
+  background-color: #184867;
+  /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+
+  font-size: 16px;
+  margin: 0;
+  border-radius: 20px;
+  /* Adjust margin for better alignment */
+  cursor: pointer;
+}
+
+.footbuttons:disabled {
+  background-color: #184867;
+  /* Change to your preferred color */
+  cursor: not-allowed;
+  /* Change the cursor to indicate the button is disabled */
+  opacity: 0.5;
+  /* Make it appear faded */
+}
+
+.poTableContainer {
+  margin: 20px 20px 20px 20px;
+  min-width: 80%;
+}
+/* step2 container */
+.step2-container
+{
+  max-width: 80vw;
+  margin: auto;
+  outline: none;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 40px;
+  background-color: transparent; /* Semi-transparent background */
+  backdrop-filter: blur(40px);
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+/* Complaints Form Section */
+.form-container {
+  background-color: transparent;
+  
+  max-height: 50vh; /* Ensure height is constrained */
+  padding: 10px;
+  margin: 20px auto;
+  max-width: 80vw;
+  border: 2px solid rgba(0,0,0,0.2);
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: auto; /* Allows scrolling if content exceeds height */
+}
+
+.disabled-input {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%; /* Ensure inputs take full width of their parent */
+}
+
+.input input {
+  padding: 10px 0;
+  margin-top: 4px;
+  width: 60%; /* Ensure inputs don't overflow */
+  border-radius: 4px;
+  outline: none;
+  box-shadow: none;
+}
+
+.input select {
+  margin-top: 4px;
+  padding: 10px 0;
+ /* Ensure selects don't overflow */
+}
+
+.input textarea {
+  flex-grow: 1;
+  /* width: calc(100% - 10px);
+   */
+   width: 100%;
+   padding-left: 2px;
+  max-height: 10vh;
+  margin-top: 4px;
+  
+  overflow: auto; /* Allow scrolling inside the textarea */
+}
+.input select,
+.input textarea {
+  margin-top: 4px;
+  border-radius: 4px;
+  outline: none; /* Remove the outline when clicked */
+   /* Optional: Remove any borders */
+  box-shadow: none; /* Remove any shadows */
+  background-color: transparent;
+  backdrop-filter: blur(40px); /* Optional: Ensure no background change */
+}
+
+/* Complaints Attachments section*/
+.attachment-container {
+  background-color: transparent;
+ 
+  height: 40vh;
+  padding: 10px;
+  margin: 20px auto;
+  max-width: 80vw;
+  border: 2px solid rgba(0,0,0,0.2);
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  /* Ensure the children are arranged vertically */
+}
+
+.heading-btn {
+ 
+  padding: 0px 10px;
+  height: 20%;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 2px solid rgba(255, 255, 255, 0.2); */
+  border: 2px solid rgba(0,0,0,0.2);
+  border-radius: 20px;
+}
+
+.attach-btn {
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border: 4px;
+  margin-right: 10px;
+  background-color: rgba(17, 133, 154, 0.2);
+  border-radius: 20px;
+}
+
+.attachment-list {
+  flex-grow: 1;
+ 
+  overflow-y: auto; /* Enable vertical scroll */
+  padding: 5px;
+}
+
+.attachment-item {
+  display: flex; /* Use flexbox for alignment */
+  justify-content: space-between; /* Space between icon/title and delete icon */
+  align-items: center; /* Align items vertically centered */
+  padding: 5px; /* Optional: Add padding for better spacing */
+}
+
+.list-icons {
+  display: flex; /* Use flexbox for horizontal alignment */
+  align-items: center; /* Align items vertically centered */
+}
+
+.file-icon {
+  margin-right: 4px; /* Add a 2px gap between icon and file name */
+}
+
+.attachment-list a {
+  text-decoration: none; /* Remove underline */
+  color: black;         /* Set text color to black */
+}
+
+.attachment-list a:hover {
+  text-decoration: underline; /* Optional: underline on hover for better UX */
+  color: darkgray;           /* Optional: change color on hover */
+}
