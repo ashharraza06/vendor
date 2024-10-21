@@ -1,27 +1,41 @@
-import React, { useState, useRef } from 'react';
+import React, {  useRef, useContext } from 'react';
 import { MdDelete } from "react-icons/md";
-
-// Import your images for each file type
-import wordIcon from './images/word.png'; // Replace with the correct path
-import pdfIcon from './images/pdf.png'; // Replace with the correct path
-import imageIcon from './images/image.png'; // Replace with the correct path
-import textIcon from './images/text.png'; // Replace with the correct path
-import zipIcon from './images/zip.png'; // Replace with the correct path
+import wordIcon from './images/word.png';
+import pdfIcon from './images/pdf.png';
+import imageIcon from './images/image.png';
+import textIcon from './images/text.png';
+import zipIcon from './images/zip.png';
+import ComplaintContext from '../context/complaint/ComplaintContext';
 
 function Attachment() {
-    const [attachments, setAttachments] = useState([]);
     const fileInputRef = useRef(null);
+
+    const compContext = useContext(ComplaintContext);
+    const { complaint, setComplaint } = compContext;
 
     // Handle file selection
     const handleFileChange = (event) => {
         const selectedFiles = Array.from(event.target.files);
-        setAttachments((prevAttachments) => [...prevAttachments, ...selectedFiles]);
+        const updatedAttachments = [...complaint.Attachment, ...selectedFiles];
+        
+        // Update the complaint object with the new attachments
+        setComplaint({
+            ...complaint,
+            Attachment: updatedAttachments
+        });
+
         fileInputRef.current.value = ''; // Reset the input after selection
     };
 
     // Handle file deletion
     const handleDelete = (fileName) => {
-        setAttachments((prevAttachments) => prevAttachments.filter(file => file.name !== fileName));
+        const updatedAttachments = complaint.Attachment.filter(file => file.name !== fileName);
+        
+        // Update the complaint object after deletion
+        setComplaint({
+            ...complaint,
+            Attachment: updatedAttachments
+        });
     };
 
     // Get file type icon based on file extension
@@ -67,11 +81,10 @@ function Attachment() {
                 />
             </div>
             <div className="attachment-list">
-                {attachments.map((file, index) => (
+                {complaint.Attachment.map((file, index) => (
                     <div key={index} className="attachment-item">
                         <div className="list-icons">
                             <span className="file-icon">{getFileIcon(file.name)}</span>
-                            {/* Wrap the file name in an anchor tag */}
                             <a href={URL.createObjectURL(file)} target="_blank" rel="noopener noreferrer">
                                 {file.name}
                             </a>

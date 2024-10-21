@@ -1,14 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
 import Table from './components/table';
-import Attachment from './components/Attachment';
-import ComplaintForm from './components/ComplaintForm';
+import RowState from './context/selectedrow/RowState';
+import ComplaintState from './context/complaint/ComplaintState';
+
 
 
 function App() {
   return (
     <div className="App">
-     <Table/>
+      <RowState>
+        <ComplaintState>
+          <Table />
+        </ComplaintState>
+      </RowState>
     </div>
   );
 }

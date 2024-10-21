@@ -1,11 +1,11 @@
-import React, { useState, useRef } from 'react';
-import { useWizard } from 'react-use-wizard';
-import { MdDelete } from "react-icons/md";
+import React, { useContext } from 'react';
 import ComplaintForm from './ComplaintForm';
 import Attachment from './Attachment';
-
-function Complaint({ selectedRow, setSelectedRow }) {
-  const { previousStep, nextStep } = useWizard();
+import RowContext from '../context/selectedrow/RowContext';
+function Complaint() {
+  const context = useContext(RowContext);
+  const {selectedRow , setSelectedRow} = context;
+ 
 
 
   return (

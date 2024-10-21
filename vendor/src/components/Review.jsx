@@ -1,6 +1,9 @@
-import React, {useEffect} from 'react'
+import React, {useEffect , useContext} from 'react'
 import { useWizard } from 'react-use-wizard';
-function Review({ selectedRow,setSelectedRow}) {
+import RowContext from '../context/selectedrow/RowContext';
+function Review() {
+  const context = useContext(RowContext);
+  const {selectedRow , setSelectedRow} = context;
     const { previousStep } = useWizard();
     
     return (

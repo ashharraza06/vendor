@@ -1,27 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState ,useContext} from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { FilterMatchMode } from 'primereact/api';
 import { IoIosSearch } from "react-icons/io";
-import { useWizard } from 'react-use-wizard';
+import RowContext from '../context/selectedrow/RowContext';
+import ComplaintContext from '../context/complaint/ComplaintContext';
 
-function Poheader({ selectedRow,setSelectedRow}) {
-    const {
-        isLoading,
-        isLastStep,
-        isFirstStep,
-        previousStep,
-        nextStep,
-        goToStep,
-    } = useWizard();
+function Poheader() {
+    const context = useContext(RowContext);
+    const {selectedRow , setSelectedRow} = context;
 
+    const compContext = useContext(ComplaintContext);
+    const {complaint , setComplaint} = compContext;
+    
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS }
     });
     const [data, setData] = useState([]); // Initialize as an empty array
-    const [error, setError] = useState(null); // Error state
-   
-    
     // Uncomment this block to fetch data from the API
     /*
     useEffect(() => {
@@ -78,9 +73,15 @@ function Poheader({ selectedRow,setSelectedRow}) {
         }));
         setData(hardcodedData); // Set the hardcoded data
     }, []);
-
     const onRowSelect = (rowData) => {
         setSelectedRow(rowData); // Update selected row
+        const id = rowData.supplierANID;
+        const po = rowData.documentNumber;
+        setComplaint({
+            ...complaint,  // spread the current state to retain other fields
+            supplierId: id,  // assign id to supplierId
+            documentNumber: po  // assign po to documentNumber
+        });
         console.log('Selected Row:', rowData); // Log the selected row details
     };
 
@@ -101,7 +102,6 @@ function Poheader({ selectedRow,setSelectedRow}) {
     return (
         <>
             <div className="poTableContainer">
-                {error && <div className="error-message">{error}</div>} {/* Error display */}
                 <div className="input-wrapper">
                     <input
                         type="text"
@@ -113,24 +113,29 @@ function Poheader({ selectedRow,setSelectedRow}) {
                     />
                     <IoIosSearch className="search-icon" />
                 </div>
-                <DataTable
-                    className='TableContent'
-                    value={data}
-                    sortMode='multiple'
-                    filters={filters}
-                    paginator
-                    rows={5}
-                    rowsPerPageOptions={[5, 10, 15]}
-                    dataKey="documentNumber" // Use a unique identifier for rows
-                >
-                    <Column body={radioButtonTemplate} header="Select" />
-                    <Column field='supplierANID' header="Vendor Id" sortable />
-                    <Column field='documentNumber' header="PO Number" sortable />
-                    <Column field='supplierName' header="Supplier Name" sortable />
-                    <Column field='poAmount.amount' header="PO Amount" sortable />
-                </DataTable>
+                <div className="potable">
+                    <DataTable
+                        className='TableContent'
+                        stripedRows
+                        value={data}
+                        sortMode='multiple'
+                        filters={filters}
+                        paginator
+                        rows={10}
+                        rowsPerPageOptions={[15, 20, 25]}
+                        paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                        currentPageReportTemplate="{first} to {last} of {totalRecords}"
+                        dataKey="documentNumber" // Use a unique identifier for rows
+                    >
+                        <Column body={radioButtonTemplate} header="Select" headerStyle={{ textAlign: 'center' }} />
+                        <Column field='supplierANID' header="Vendor Id" sortable headerStyle={{ textAlign: 'center' }} />
+                        <Column field='documentNumber' header="PO Number" sortable headerStyle={{ textAlign: 'center' }} />
+                        <Column field='supplierName' header="Supplier Name" sortable headerStyle={{ textAlign: 'center' }} />
+                        <Column field='poAmount.amount' header="PO Amount" sortable headerStyle={{ textAlign: 'center' }} />
+                    </DataTable>
+                </div>
             </div>
-            
+
         </>
     );
 }
