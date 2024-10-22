@@ -12,12 +12,13 @@ function Poheader() {
     const { selectedRow, setSelectedRow, poData, getPoData } = context;
 
     const compContext = useContext(ComplaintContext);
-    const { complaint, setComplaint } = compContext;
+    const { complaint, setComplaint , getCompalins} = compContext;
 
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS }
     });
-    const [data, setData] = useState([]); // Initialize as an empty array
+ 
+    // Initialize as an empty array
     // Uncomment this block to fetch data from the API
     /*
     useEffect(() => {
@@ -66,18 +67,7 @@ function Poheader() {
         getPoData();
     }, [])
 
-    // Hardcoded data for demonstration purposes
-    useEffect(() => {
-        const hardcodedData = Array.from({ length: 50 }, (_, index) => ({
-            supplierANID: `AN${(index + 1).toString().padStart(12, '0')}-T`,
-            documentNumber: `PO${(index + 1).toString().padStart(6, '0')}`,
-            supplierName: `Supplier ${index + 1}`,
-            poAmount: {
-                amount: (index + 1) * 1000, // Incrementing amount for variety
-            },
-        }));
-        setData(hardcodedData); // Set the hardcoded data
-    }, []);
+
     const onRowSelect = (rowData) => {
         setSelectedRow(rowData); // Update selected row
         const id = rowData.vendor;
@@ -87,7 +77,7 @@ function Poheader() {
             vendor: id,  // assign id to supplierId
             pono: po  // assign po to documentNumber
         });
-        console.log('Selected Row:', rowData); // Log the selected row details
+        getCompalins(po);
     };
 
     const radioButtonTemplate = (rowData) => {
