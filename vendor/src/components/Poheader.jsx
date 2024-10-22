@@ -1,18 +1,19 @@
-import React, { useEffect, useState ,useContext} from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { FilterMatchMode } from 'primereact/api';
 import { IoIosSearch } from "react-icons/io";
 import RowContext from '../context/selectedrow/RowContext';
 import ComplaintContext from '../context/complaint/ComplaintContext';
+import Loading from './Loading';
 
 function Poheader() {
     const context = useContext(RowContext);
-    const {selectedRow , setSelectedRow} = context;
+    const { selectedRow, setSelectedRow, poData, getPoData } = context;
 
     const compContext = useContext(ComplaintContext);
-    const {complaint , setComplaint} = compContext;
-    
+    const { complaint, setComplaint } = compContext;
+
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS }
     });
@@ -61,6 +62,10 @@ function Poheader() {
     }, []);
     */
 
+    useEffect(() => {
+        getPoData();
+    }, [])
+
     // Hardcoded data for demonstration purposes
     useEffect(() => {
         const hardcodedData = Array.from({ length: 50 }, (_, index) => ({
@@ -75,66 +80,73 @@ function Poheader() {
     }, []);
     const onRowSelect = (rowData) => {
         setSelectedRow(rowData); // Update selected row
-        const id = rowData.supplierANID;
-        const po = rowData.documentNumber;
+        const id = rowData.vendor;
+        const po = rowData.pono;
         setComplaint({
             ...complaint,  // spread the current state to retain other fields
-            supplierId: id,  // assign id to supplierId
-            documentNumber: po  // assign po to documentNumber
+            vendor: id,  // assign id to supplierId
+            pono: po  // assign po to documentNumber
         });
         console.log('Selected Row:', rowData); // Log the selected row details
     };
 
     const radioButtonTemplate = (rowData) => {
+        const isChecked = selectedRow && selectedRow.pono === rowData.pono;
+
         return (
             <input
                 type="radio"
                 name="selectedRow"
-                checked={selectedRow && selectedRow.documentNumber === rowData.documentNumber}
-                onChange={() => {
-                    onRowSelect(rowData); // Handle row selection
-                    // goToStep(1); // Navigate to the next step when selected
-                }}
+                checked={isChecked || false}  // Ensure `checked` is either true or false
+                onChange={() => onRowSelect(rowData)}
             />
         );
     };
 
     return (
         <>
-            <div className="poTableContainer">
-                <div className="input-wrapper">
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        onChange={(e) => setFilters({
-                            ...filters,
-                            global: { value: e.target.value, matchMode: FilterMatchMode.CONTAINS }
-                        })}
-                    />
-                    <IoIosSearch className="search-icon" />
-                </div>
-                <div className="potable">
-                    <DataTable
-                        className='TableContent'
-                        stripedRows
-                        value={data}
-                        sortMode='multiple'
-                        filters={filters}
-                        paginator
-                        rows={10}
-                        rowsPerPageOptions={[15, 20, 25]}
-                        paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-                        currentPageReportTemplate="{first} to {last} of {totalRecords}"
-                        dataKey="documentNumber" // Use a unique identifier for rows
-                    >
-                        <Column body={radioButtonTemplate} header="Select" headerStyle={{ textAlign: 'center' }} />
+            {poData ? (
+                <div className="poTableContainer">
+                    <div className="input-wrapper">
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            onChange={(e) => setFilters({
+                                ...filters,
+                                global: { value: e.target.value, matchMode: FilterMatchMode.CONTAINS }
+                            })}
+                        />
+                        <IoIosSearch className="search-icon" />
+                    </div>
+                    <div className="potable">
+                        <DataTable
+                            className='TableContent'
+                            stripedRows
+                            value={poData}
+                            sortMode='multiple'
+                            filters={filters}
+                            paginator
+                            rows={10}
+                            rowsPerPageOptions={[15, 20, 25]}
+                            paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                            currentPageReportTemplate="{first} to {last} of {totalRecords}"
+                            dataKey="pono" // Use a unique identifier for rows
+                        >
+                            {/* <Column body={radioButtonTemplate} header="Select" headerStyle={{ textAlign: 'center' }} />
                         <Column field='supplierANID' header="Vendor Id" sortable headerStyle={{ textAlign: 'center' }} />
                         <Column field='documentNumber' header="PO Number" sortable headerStyle={{ textAlign: 'center' }} />
                         <Column field='supplierName' header="Supplier Name" sortable headerStyle={{ textAlign: 'center' }} />
-                        <Column field='poAmount.amount' header="PO Amount" sortable headerStyle={{ textAlign: 'center' }} />
-                    </DataTable>
+                        <Column field='poAmount.amount' header="PO Amount" sortable headerStyle={{ textAlign: 'center' }} /> */}
+                            <Column body={radioButtonTemplate} header="Select" headerStyle={{ textAlign: 'center' }} />
+                            <Column field='vendor' header="Vendor Id" sortable headerStyle={{ textAlign: 'center' }} />
+                            <Column field='pono' header="PO Number" sortable headerStyle={{ textAlign: 'center' }} />
+                            <Column field='type' header="Po/Invoice" sortable headerStyle={{ textAlign: 'center' }} />
+                            <Column field='amount' header="PO Amount" sortable headerStyle={{ textAlign: 'center' }} />
+                        </DataTable>
+                    </div>
                 </div>
-            </div>
+            ) :
+                <Loading />}
 
         </>
     );

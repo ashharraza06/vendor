@@ -1,14 +1,9 @@
 import React , {useContext} from 'react'
-import RowContext from '../context/selectedrow/RowContext';
-import ComplaintContext from '../context/complaint/ComplaintContext';
 
-function ComplaintForm() {
-    const context = useContext(RowContext);
-    const {selectedRow } = context;
 
-    const compContext = useContext(ComplaintContext);
-    const {complaint , setComplaint} = compContext;
-    const {documentNumber ,  supplierId} = complaint;
+function ComplaintForm(props) {
+    const {complaint , setComplaint,ecom} = props;
+    const {pono ,  vendor} = complaint;
     
     const onChange = (e) => {
         setComplaint({
@@ -25,17 +20,18 @@ function ComplaintForm() {
                     <div className="disabled-input">
                         <div className="input">
                             <label htmlFor="vend_id">Vendor Id :-</label>
-                            <input type="text" id='vend_id' name='vendorid' value={ supplierId || ''} disabled />
+                            <input type="text" id='vend_id' name='vendorid' value={ vendor || ''} disabled />
                         </div>
                         <div className="input">
                             <label htmlFor="poNumber">Po Number :-</label>
-                            <input type="text" id='poNumber' name='ponumber' value={documentNumber || ''} disabled />
+                            <input type="text" id='poNumber' name='ponumber' value={pono || ''} disabled />
                         </div>
                     </div>
                     <div className="input">
                         <label htmlFor="comptype">Complain Type :-</label>
-                        <select id="comptype" name="CompType" onChange={onChange} defaultValue="" required>
-                            <option value={complaint.CompType || ''} disabled>
+                        <select id="comptype" name="CompType" onChange={onChange} defaultValue="" required
+                        disabled={!ecom}>
+                            <option value={complaint.CompType || ''} disabled >
                                 -- Select Complaint Type --
                             </option>
                             <option value="Delay in Payment">Delay in Payment</option>
@@ -49,7 +45,7 @@ function ComplaintForm() {
                     <div className="input">
                         <label htmlFor="description">Complaint Description :-</label>
                         <textarea id="description" name="Description" rows="4" cols="50"
-                        value={complaint.Description} onChange={onChange} required>
+                        value={complaint.Description} disabled={!ecom} onChange={onChange} required>
                             A
                         </textarea>
                     </div>

@@ -7,11 +7,11 @@ import textIcon from './images/text.png';
 import zipIcon from './images/zip.png';
 import ComplaintContext from '../context/complaint/ComplaintContext';
 
-function Attachment() {
+function Attachment(props) {
     const fileInputRef = useRef(null);
 
     const compContext = useContext(ComplaintContext);
-    const { complaint, setComplaint } = compContext;
+    const { complaint, setComplaint , ecom } = props;
 
     // Handle file selection
     const handleFileChange = (event) => {
@@ -66,7 +66,7 @@ function Attachment() {
         <div className="attachment-container">
             <div className="heading-btn">
                 <h2>Attachments</h2>
-                <button className="attach-btn">
+                <button className="attach-btn" style={{ display: !ecom ? 'none' : 'block' }}>
                     <label htmlFor="file-input" className="custom-file-label">
                         Attach
                     </label>
@@ -89,7 +89,8 @@ function Attachment() {
                                 {file.name}
                             </a>
                         </div>
-                        <MdDelete onClick={() => handleDelete(file.name)} />
+                        <MdDelete  style={{ display: !ecom ? 'none' : 'block' }}
+                         onClick={() => handleDelete(file.name)} />
                     </div>
                 ))}
             </div>

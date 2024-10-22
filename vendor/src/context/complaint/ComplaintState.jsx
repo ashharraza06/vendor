@@ -5,8 +5,8 @@ import ComplaintContext from './ComplaintContext';
 const ComplaintState = (props) =>
 {
     const comp1 = {
-        supplierId : '',
-        documentNumber : '',
+        vendor : '',
+       pono : '',
         CompType : '',
         Description : '',
         Attachment : []
